@@ -45,7 +45,12 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable);
 
         http.csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()));
+
+        http.authorizeHttpRequests(httpRequests -> httpRequests
+                .anyRequest().permitAll()
+        );
 
         http.exceptionHandling(handling -> handling
                 .accessDeniedHandler(accessDeniedHandler)
@@ -59,6 +64,8 @@ public class SecurityConfig {
         http.addFilterBefore(exceptionHandlerFilter, JwtReqFilter.class);
 
         http.authorizeHttpRequests(httpRequests -> httpRequests
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
                 // auth
                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                 .requestMatchers(HttpMethod.POST, "/auth/signup").permitAll()
@@ -84,18 +91,18 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // plz custom allowed client origins
-        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
-
+        configuration.setAllowedOriginPatterns(List.of("*"));
         configuration.setAllowedMethods(Arrays.asList(
                 HttpMethod.GET.name(),
                 HttpMethod.POST.name(),
                 HttpMethod.PUT.name(),
                 HttpMethod.PATCH.name(),
                 HttpMethod.DELETE.name(),
-                HttpMethod.OPTIONS.name()));
-
+                HttpMethod.OPTIONS.name()
+        ));
+        configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
