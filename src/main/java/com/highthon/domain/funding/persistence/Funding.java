@@ -41,9 +41,6 @@ public class Funding {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    @OneToOne(mappedBy = "funding")
-    private Product product;
-
     @JoinColumn(name = "category_id")
     @OneToOne(cascade = CascadeType.ALL)
     private Category category;

@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "tbl_funding")
+@Table(name = "tbl_product")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString

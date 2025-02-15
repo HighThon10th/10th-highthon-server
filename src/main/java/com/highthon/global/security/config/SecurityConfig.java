@@ -68,6 +68,7 @@ public class SecurityConfig {
 
                 // funding
                 .requestMatchers(HttpMethod.POST, "/funding").hasAuthority(Authority.CREATOR.name())
+                .requestMatchers(HttpMethod.GET, "/funding/search").authenticated()
 
                 // like
                 .requestMatchers(HttpMethod.POST, "/like/{funding_id}").hasAnyAuthority(Authority.USER.name(), Authority.CREATOR.name())
