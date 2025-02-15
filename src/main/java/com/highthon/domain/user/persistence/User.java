@@ -1,8 +1,11 @@
 package com.highthon.domain.user.persistence;
 
 import com.highthon.domain.user.persistence.type.Authority;
+import com.highthon.domain.user.persistence.type.Sex;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "tbl_user")
@@ -25,6 +28,11 @@ public class User {
 
     @Column(nullable = false, columnDefinition = "VARCHAR(30)")
     private String name;
+
+    @Enumerated(EnumType.STRING)
+    private Sex sex;
+
+    private Integer age;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "authority")

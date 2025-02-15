@@ -1,5 +1,5 @@
 package com.highthon.domain.user.persistence.type;
 
-public enum Authority {
-    USER, CREATOR
+public enum Sex {
+    MALE, FEMALE
 }
