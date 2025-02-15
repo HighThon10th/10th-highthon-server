@@ -66,6 +66,9 @@ public class SecurityConfig {
                 // user
                 .requestMatchers(HttpMethod.PATCH, "/user/apply-creator").hasAuthority(Authority.USER.name())
 
+                // funding
+                .requestMatchers(HttpMethod.POST, "/funding").hasAuthority(Authority.CREATOR.name())
+
                 .anyRequest().permitAll()
         );
 

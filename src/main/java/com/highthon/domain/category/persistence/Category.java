@@ -23,4 +23,8 @@ public class Category {
 
     private Integer fundingLikeCount;
 
+    public void addFunding() {
+        this.fundingLikeCount++;
+    }
+
 }
