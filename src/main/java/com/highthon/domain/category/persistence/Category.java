@@ -21,10 +21,8 @@ public class Category {
 
     private Integer fundingCount;
 
-    private Integer fundingLikeCount;
-
     public void addFunding() {
-        this.fundingLikeCount++;
+        this.fundingCount++;
     }
 
 }
