@@ -19,9 +19,11 @@ public class Support {
     @Column(name = "support_id", nullable = false)
     private Long id;
 
+    @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
+    @JoinColumn(name = "product_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
 

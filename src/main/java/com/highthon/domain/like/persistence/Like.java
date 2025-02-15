@@ -19,9 +19,11 @@ public class Like {
     @Column(name = "like_id", nullable = false)
     private Long id;
 
+    @JoinColumn(name = "funding_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Funding funding;
 
+    @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
