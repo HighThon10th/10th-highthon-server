@@ -4,6 +4,7 @@ import com.highthon.domain.category.persistence.Category;
 import com.highthon.domain.funding.persistence.type.FundingStatus;
 import com.highthon.domain.product.persistence.Product;
 import com.highthon.domain.support.persistence.Support;
+import com.highthon.domain.user.persistence.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -50,6 +51,10 @@ public class Funding {
     @JoinColumn(name = "category_id")
     @OneToOne(cascade = CascadeType.ALL)
     private Category category;
+
+    @JoinColumn(name = "user_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    private User user;
 
     @Enumerated(EnumType.STRING)
     private FundingStatus fundingStatus;

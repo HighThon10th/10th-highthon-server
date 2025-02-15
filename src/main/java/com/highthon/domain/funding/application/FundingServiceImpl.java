@@ -33,6 +33,7 @@ public class FundingServiceImpl implements FundingService {
     @Override
     @Transactional
     public void createFunding(CreateFundingReqDto dto) {
+        User currentUser = userUtil.getCurrentUser();
         Long categoryId = dto.getCategoryId();
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new GlobalException("카테고리를 찾을 수 없습니다. id = " + categoryId, HttpStatus.NOT_FOUND));
@@ -42,6 +43,7 @@ public class FundingServiceImpl implements FundingService {
         Funding funding = Funding.builder()
                 .title(dto.getTitle())
                 .description(dto.getDescription())
+                .user(currentUser)
                 .likeCount(0L)
                 .fundingAmount(0L)
                 .targetAmount(dto.getTargetAmount())
