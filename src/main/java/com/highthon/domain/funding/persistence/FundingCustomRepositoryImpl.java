@@ -84,6 +84,7 @@ public class FundingCustomRepositoryImpl implements FundingCustomRepository {
                         )
                 )
                 .from(funding)
+                .where(funding.id.eq(fundingId))
                 .join(funding.product, product)
                 .fetchOne();
 

@@ -50,3 +50,5 @@ springdoc:
 jwt:
   accessSecret: dGVhbXRoZW1vbWVudGdzbW5ldHasdasdadvcmtpbmdhY2Nlc3NrZXk=
   accessExp: 36000000
+server:
+  port: 9999
