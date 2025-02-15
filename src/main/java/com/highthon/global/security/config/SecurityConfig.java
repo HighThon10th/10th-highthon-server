@@ -69,6 +69,10 @@ public class SecurityConfig {
                 // funding
                 .requestMatchers(HttpMethod.POST, "/funding").hasAuthority(Authority.CREATOR.name())
 
+                // like
+                .requestMatchers(HttpMethod.POST, "/like/{funding_id}").hasAnyAuthority(Authority.USER.name(), Authority.CREATOR.name())
+                .requestMatchers(HttpMethod.DELETE, "/like/{funding_id}").hasAnyAuthority(Authority.USER.name(), Authority.CREATOR.name())
+
                 .anyRequest().permitAll()
         );
 

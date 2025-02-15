@@ -32,6 +32,8 @@ public class Funding {
 
     private Long fundingAmount = 0L;
 
+    private Long likeCount = 0L;
+
     private LocalDateTime fundingStartDate = LocalDateTime.now();
 
     private LocalDateTime fundingEndDate;
@@ -52,5 +54,17 @@ public class Funding {
     private boolean isRequiredCopyrightPermission;
 
     private Boolean isApprovedCopyright = null;
+
+    public void addLike() {
+        this.likeCount++;
+    }
+
+    public void removeLike() {
+        if (this.likeCount <= 0) {
+            throw new IllegalStateException("좋아요 수는 음수가 될 수 없습니다.");
+        }
+
+        this.likeCount--;
+    }
 
 }
