@@ -34,12 +34,4 @@ public class NoticeController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/info/{notice_id}")
-    public ResponseEntity<QueryNoticeResDto> query(
-            @PathVariable("notice_id") Long noticeId
-    ) {
-        QueryNoticeResDto response = noticeService.query(noticeId);
-        return ResponseEntity.ok(response);
-    }
-
 }

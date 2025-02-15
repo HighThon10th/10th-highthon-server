@@ -53,6 +53,7 @@ public class NoticeServiceImpl implements NoticeService {
                         .createTime(n.getCreateTime())
                         .creatorName(n.getUser().getName())
                         .noticeId(n.getId())
+                        .content(n.getContent())
                         .build()).collect(Collectors.toList());
     }
 
