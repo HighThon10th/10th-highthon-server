@@ -4,6 +4,7 @@ import com.highthon.domain.auth.application.AuthService;
 import com.highthon.domain.auth.application.dto.LoginReqDto;
 import com.highthon.domain.auth.application.dto.LoginResDto;
 import com.highthon.domain.auth.application.dto.SignupReqDto;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +21,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResDto> login(
-            @RequestBody LoginReqDto dto
+            @RequestBody @Valid LoginReqDto dto
     ) {
         LoginResDto response = authService.login(dto);
         return ResponseEntity.ok(response);
@@ -28,7 +29,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<Void> signup(
-            @RequestBody SignupReqDto dto
+            @RequestBody @Valid SignupReqDto dto
     ) {
         authService.signup(dto);
         return ResponseEntity.noContent().build();

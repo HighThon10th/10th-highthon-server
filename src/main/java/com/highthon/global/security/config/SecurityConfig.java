@@ -1,5 +1,6 @@
 package com.highthon.global.security.config;
 
+import com.highthon.domain.user.persistence.type.Authority;
 import com.highthon.global.filter.ExceptionHandlerFilter;
 import com.highthon.global.filter.JwtReqFilter;
 import com.highthon.global.security.handler.CustomAccessDeniedHandler;
@@ -61,6 +62,9 @@ public class SecurityConfig {
                 // auth
                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                 .requestMatchers(HttpMethod.POST, "/auth/signup").permitAll()
+
+                // user
+                .requestMatchers(HttpMethod.PATCH, "/user/apply-creator").hasAuthority(Authority.USER.name())
 
                 .anyRequest().permitAll()
         );

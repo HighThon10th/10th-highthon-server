@@ -5,8 +5,6 @@ import com.highthon.domain.user.persistence.type.Sex;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
-
 @Entity
 @Table(name = "tbl_user")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -34,7 +32,17 @@ public class User {
 
     private Integer age;
 
+    private String businessRegistrationNumber;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "authority")
     private Authority authority;
+
+    public void applyCreator(
+            String businessRegistrationNumber
+    ) {
+        this.businessRegistrationNumber = businessRegistrationNumber;
+        this.authority = Authority.CREATOR;
+    }
+
 }
