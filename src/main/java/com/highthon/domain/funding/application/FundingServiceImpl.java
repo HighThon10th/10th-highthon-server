@@ -47,11 +47,8 @@ public class FundingServiceImpl implements FundingService {
         fundingRepository.save(funding);
 
         Product product = Product.builder()
-                .name(dto.getProduct().getName())
-                .description(dto.getProduct().getDescription())
                 .price(dto.getProduct().getPrice())
                 .quantity(dto.getProduct().getQuantity())
-                .thumbnailImgUrl(dto.getThumbnailImgUrl())
                 .funding(funding)
                 .build();
         productRepository.save(product);

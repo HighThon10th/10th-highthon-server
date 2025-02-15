@@ -18,12 +18,6 @@ public class Product {
     @Column(name = "product_id", nullable = false)
     private Long id;
 
-    private String name;
-
-    private String thumbnailImgUrl;
-
-    private String description;
-
     private Long price;
 
     private Long quantity;
