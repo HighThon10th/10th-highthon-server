@@ -22,3 +22,7 @@ spring:
     redis:
       host: localhost
       port: 6379
+
+jwt:
+  accessSecret: dGVhbXRoZW1vbWVudGdzbW5ldHasdasdadvcmtpbmdhY2Nlc3NrZXk=
+  accessExp: 36000000
