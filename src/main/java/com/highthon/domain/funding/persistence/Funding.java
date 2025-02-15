@@ -75,4 +75,8 @@ public class Funding {
         this.likeCount--;
     }
 
+    public void addFundingAmount(Long amount) {
+        this.fundingAmount += amount;
+    }
+
 }
