@@ -21,6 +21,8 @@ public class Category {
 
     private Integer fundingCount;
 
+    private String url;
+
     public void addFunding() {
         this.fundingCount++;
     }

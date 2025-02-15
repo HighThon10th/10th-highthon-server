@@ -7,4 +7,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateCategoryReqDto {
     private String name;
+    private String url;
 }
