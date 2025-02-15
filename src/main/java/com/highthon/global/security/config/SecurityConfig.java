@@ -48,10 +48,6 @@ public class SecurityConfig {
                 .cors(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
-        http.authorizeHttpRequests(httpRequests -> httpRequests
-                .anyRequest().permitAll()
-        );
-
         http.exceptionHandling(handling -> handling
                 .accessDeniedHandler(accessDeniedHandler)
                 .authenticationEntryPoint(authenticationEntryPoint));
@@ -64,8 +60,6 @@ public class SecurityConfig {
         http.addFilterBefore(exceptionHandlerFilter, JwtReqFilter.class);
 
         http.authorizeHttpRequests(httpRequests -> httpRequests
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-
                 // auth
                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                 .requestMatchers(HttpMethod.POST, "/auth/signup").permitAll()
