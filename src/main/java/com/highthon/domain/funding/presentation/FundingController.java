@@ -3,6 +3,7 @@ package com.highthon.domain.funding.presentation;
 import com.highthon.domain.funding.application.FundingService;
 import com.highthon.domain.funding.application.dto.CreateFundingReqDto;
 import com.highthon.domain.funding.application.dto.FundingResDto;
+import com.highthon.domain.funding.application.dto.QueryFundingResDto;
 import com.highthon.domain.funding.application.dto.SearchFundingResDto;
 import com.highthon.domain.funding.persistence.type.SearchType;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -34,6 +35,14 @@ public class FundingController {
             @RequestParam(name = "keyword", required = false) String keyword
     ) {
         SearchFundingResDto response = fundingService.search(keyword, categoryId, searchType, size, page);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{funding_id}")
+    public ResponseEntity<QueryFundingResDto> query(
+            @PathVariable("funding_id") Long fundingId
+    ) {
+        QueryFundingResDto response = fundingService.query(fundingId);
         return ResponseEntity.ok(response);
     }
 

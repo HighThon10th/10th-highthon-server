@@ -2,18 +2,16 @@ package com.highthon.domain.funding.application;
 
 import com.highthon.domain.category.persistence.Category;
 import com.highthon.domain.category.persistence.CategoryRepository;
-import com.highthon.domain.community.persistence.Community;
-import com.highthon.domain.funding.application.dto.CreateFundingReqDto;
-import com.highthon.domain.funding.application.dto.FundingResDto;
-import com.highthon.domain.funding.application.dto.SearchFundingInfoDto;
-import com.highthon.domain.funding.application.dto.SearchFundingResDto;
+import com.highthon.domain.funding.application.dto.*;
 import com.highthon.domain.funding.persistence.Funding;
 import com.highthon.domain.funding.persistence.FundingRepository;
 import com.highthon.domain.funding.persistence.type.FundingStatus;
 import com.highthon.domain.funding.persistence.type.SearchType;
 import com.highthon.domain.product.persistence.Product;
 import com.highthon.domain.product.persistence.ProductRepository;
+import com.highthon.domain.user.persistence.User;
 import com.highthon.global.error.GlobalException;
+import com.highthon.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +28,7 @@ public class FundingServiceImpl implements FundingService {
     private final FundingRepository fundingRepository;
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
+    private final UserUtil userUtil;
 
     @Override
     @Transactional
@@ -83,6 +81,13 @@ public class FundingServiceImpl implements FundingService {
                 .funding(fundingPage.getContent())
                 .build();
 
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public QueryFundingResDto query(Long fundingId) {
+        User currentUser = userUtil.getCurrentUser();
+        return fundingRepository.query(fundingId, currentUser.getId());
     }
 
 }

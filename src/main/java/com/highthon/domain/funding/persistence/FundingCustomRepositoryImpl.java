@@ -1,10 +1,14 @@
 package com.highthon.domain.funding.persistence;
 
 import com.highthon.domain.funding.application.dto.FundingResDto;
+import com.highthon.domain.funding.application.dto.QueryFundingResDto;
 import com.highthon.domain.funding.persistence.type.SearchType;
+import com.highthon.domain.like.persistence.QLike;
+import com.highthon.domain.product.persistence.QProduct;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanTemplate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -13,6 +17,9 @@ import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
+import static com.highthon.domain.funding.persistence.QFunding.*;
+import static com.highthon.domain.product.persistence.QProduct.*;
 
 @Repository
 @RequiredArgsConstructor
@@ -30,15 +37,15 @@ public class FundingCustomRepositoryImpl implements FundingCustomRepository {
         List<FundingResDto> fundings = queryFactory
                 .select(Projections.constructor(
                         FundingResDto.class,
-                        QFunding.funding.id,
-                        QFunding.funding.title,
-                        QFunding.funding.fundingAmount.castToNum(Double.class)
-                                .divide(QFunding.funding.targetAmount.castToNum(Double.class))
-                                .multiply(100)
-                                .stringValue(),
-                        QFunding.funding.thumbnailImgUrl
+                        funding.id,
+                        funding.title,
+                        funding.fundingAmount.castToNum(Double.class)
+                        .divide(funding.targetAmount.castToNum(Double.class))
+                        .multiply(100)
+                        .stringValue(),
+                        funding.thumbnailImgUrl
                 ))
-                .from(QFunding.funding)
+                .from(funding)
                 .where(builder)
                 .orderBy(applySearchType(searchType))
                 .offset(pageable.getOffset())
@@ -48,10 +55,46 @@ public class FundingCustomRepositoryImpl implements FundingCustomRepository {
         return PageableExecutionUtils.getPage(fundings, pageable, () -> getTotalCount(builder));
     }
 
+    @Override
+    public QueryFundingResDto query(Long fundingId, Long userId) {
+        Long likeCount = queryFactory.select(QLike.like.count())
+                .from(QLike.like)
+                .where(QLike.like.user.id.eq(userId)
+                        .and(QLike.like.funding.id.eq(fundingId)))
+                .fetchOne();
+
+        Boolean isLiked = (likeCount != null && likeCount > 0);
+
+        QueryFundingResDto queryFundingResDto = queryFactory.select(
+                        Projections.constructor(
+                                QueryFundingResDto.class,
+                                funding.id,
+                                funding.category.name,
+                                funding.thumbnailImgUrl,
+                                funding.content,
+                                funding.title,
+                                funding.description,
+                                funding.product.supports.size(),
+                                funding.targetAmount,
+                                funding.fundingAmount,
+                                funding.product.price,
+                                funding.product.quantity,
+                                funding.fundingStartDate,
+                                funding.fundingEndDate
+                        )
+                )
+                .from(funding)
+                .join(funding.product, product)
+                .fetchOne();
+
+        queryFundingResDto.setIsLiked(isLiked);
+        return queryFundingResDto;
+    }
+
     private long getTotalCount(BooleanBuilder builder) {
         return queryFactory
-                .select(QFunding.funding.count())
-                .from(QFunding.funding)
+                .select(funding.count())
+                .from(funding)
                 .where(builder)
                 .fetchFirst();
     }
@@ -65,7 +108,7 @@ public class FundingCustomRepositoryImpl implements FundingCustomRepository {
         }
 
         booleanBuilder.and(
-                QFunding.funding.title.like(keyword + "%")
+                funding.title.like(keyword + "%")
         );
     }
 
@@ -78,7 +121,7 @@ public class FundingCustomRepositoryImpl implements FundingCustomRepository {
         }
 
         booleanBuilder.and(
-                QFunding.funding.category.id.eq(categoryId)
+                funding.category.id.eq(categoryId)
         );
     }
 

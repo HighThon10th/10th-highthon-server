@@ -3,10 +3,13 @@ package com.highthon.domain.funding.persistence;
 import com.highthon.domain.category.persistence.Category;
 import com.highthon.domain.funding.persistence.type.FundingStatus;
 import com.highthon.domain.product.persistence.Product;
+import com.highthon.domain.support.persistence.Support;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tbl_funding")
@@ -40,6 +43,9 @@ public class Funding {
 
     @Column(columnDefinition = "TEXT")
     private String content;
+
+    @OneToOne(mappedBy = "funding")
+    private Product product;
 
     @JoinColumn(name = "category_id")
     @OneToOne(cascade = CascadeType.ALL)

@@ -1,6 +1,7 @@
 package com.highthon.domain.funding.application;
 
 import com.highthon.domain.funding.application.dto.CreateFundingReqDto;
+import com.highthon.domain.funding.application.dto.QueryFundingResDto;
 import com.highthon.domain.funding.application.dto.SearchFundingResDto;
 import com.highthon.domain.funding.persistence.type.SearchType;
 
@@ -13,4 +14,6 @@ public interface FundingService {
             Integer size,
             Integer page
     );
+
+    QueryFundingResDto query(Long fundingId);
 }
